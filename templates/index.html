@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Speaking Grading Tool</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #444;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        /* Upload Section */
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        input[type="file"] {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Results Section */
+        .result {
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .result p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+        .score {
+            margin-top: 10px;
+        }
+        .score p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .score span {
+            font-weight: bold;
+        }
+        .score-positive {
+            color: #4CAF50;
+        }
+        .score-neutral {
+            color: #FFC107;
+        }
+        .score-negative {
+            color: #F44336;
+        }
+
+        /* Error Messages */
+        .error {
+            color: #F44336;
+            font-size: 16px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            input[type="file"] {
+                max-width: 100%;
+            }
+            button[type="submit"] {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>IELTS Speaking Grading Tool</h1>
+
+    <!-- Audio Upload Form -->
+    <div class="form-section">
+        <form action="/upload" method="post" enctype="multipart/form-data" class="upload-form">
+            <label for="file">Upload Your Audio File:</label>
+            <input type="file" name="file" id="file" accept="audio/*" required>
+            <button type="submit">Grade</button>
+        </form>
+    </div>
+
+    <!-- Display Transcription and Results -->
+    {% if transcription %}
+    <div class="result">
+        <h3>Transcription:</h3>
+        <p>{{ transcription }}</p>
+
+        <h3>Grading Results:</h3>
+        <div class="score">
+            <p>Fluency: <span class="score-positive">{{ fluency|round(2) }}/10</span></p>
+            <p>Lexical Resource: <span class="score-neutral">{{ lexical|round(2) }}/10</span></p>
+            <p>Grammar: <span class="score-negative">{{ grammar|round(2) }}/10</span></p>
+            <p>Total Score: <span>{{ total|round(2) }}/30</span></p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Error Message -->
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+</div>
+
+</body>
+</html>
